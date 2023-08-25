@@ -43,5 +43,16 @@ module.exports = {
         } catch (err) {
             res.status(500).json(err);
         }
+    },
+    async deleteUser(req, res) {
+        try {
+            const deletedUser = await User.findByIdAndDelete(req.params.id);
+            if (!deletedUser) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+            res.json(deletedUser);
+        } catch (err) {
+            res.status(400).json(err);
+        }
     }
 }
