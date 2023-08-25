@@ -14,21 +14,30 @@ const userSchema = new Schema(
             unique: true,
             match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
         },
-        thoughts: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Thought'
-        }],
-        friends: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        }],
-
+        thoughts: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'thought'
+            }
+        ],
+        friends: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'user'
+            }
+        ],
+    },
+    {
+        toJSON: {
+            virtuals: true,
+        },
+        id: false,
     }
 )
 userSchema.virtual('friendCount').get(function () {
     return this.friends.length;
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('user', userSchema);
 
 module.exports = User;
