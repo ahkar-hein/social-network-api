@@ -54,5 +54,39 @@ module.exports = {
         } catch (err) {
             res.status(400).json(err);
         }
+    },
+    async createFriend(req, res) {
+        try {
+            const user = await User.findById(req.params.userId);
+            const friend = await User.findById(req.params.friendId);
+
+            if (!user || !friend) {
+                return res.status(404).json({ message: 'User or friend not found' });
+            }
+
+            user.friends.push(friend);
+            await user.save();
+
+            res.json(user);
+        } catch (err) {
+            res.status(400).json(err);
+        }
+    },
+    async deleteFriend(req, res) {
+        try {
+            const user = await User.findById(req.params.userId);
+            const friend = await User.findById(req.params.friendId);
+
+            if (!user || !friend) {
+                return res.status(404).json({ message: 'User or friend not found' });
+            }
+
+            user.friends.pull(friend._id);
+            await user.save();
+
+            res.json(user);
+        } catch (err) {
+            res.status(400).json(err);
+        }
     }
 }
