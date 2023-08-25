@@ -21,21 +21,21 @@ module.exports = {
           }
     },
     async createNewThought(req, res) {
-        try {
-            const newThought = await Thought.create(req.body);
-        
-            const user = await User.findById(newThought.userId);
-            user.thoughts.push(newThought._id);
-            await user.save();
-
-            if (!user) {
-                return res.status(404).json({ message: 'Cannot find the user' });
-            }
-        
-            res.json(newThought);
-          } catch (err) {
-            res.status(400).json(err);
-          }
+      try {
+        const newThought = await Thought.create(req.body);
+    
+        const user = await User.findOne(newThought.userId);
+        if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+    
+        user.thoughts.push(newThought._id);
+        await user.save();
+    
+        res.json(newThought);
+      } catch (err) {
+        res.status(400).json(err);
+      }
     },
     async updateThought(req, res) {
         try {

@@ -11,7 +11,7 @@ module.exports = {
     },
     async getSingleUser(req, res) {
         try {
-            const user = await User.findOne({ _id: req.params.userId })
+            const user = await User.findOne({ _id: req.params.id })
                 .select('-__v');
 
             if (!user) {
@@ -50,7 +50,7 @@ module.exports = {
             if (!deletedUser) {
                 return res.status(404).json({ message: 'User not found' });
             }
-            res.json(deletedUser);
+            res.json({ message: 'Successfully deleted' });
         } catch (err) {
             res.status(400).json(err);
         }
@@ -58,7 +58,7 @@ module.exports = {
     async createFriend(req, res) {
         try {
             const user = await User.findById(req.params.userId);
-            const friend = await User.findById(req.params.friendId);
+            const friend = await User.findById(req.params.friendsId);
 
             if (!user || !friend) {
                 return res.status(404).json({ message: 'User or friend not found' });
@@ -75,7 +75,7 @@ module.exports = {
     async deleteFriend(req, res) {
         try {
             const user = await User.findById(req.params.userId);
-            const friend = await User.findById(req.params.friendId);
+            const friend = await User.findById(req.params.friendsId);
 
             if (!user || !friend) {
                 return res.status(404).json({ message: 'User or friend not found' });
