@@ -36,5 +36,23 @@ module.exports = {
           } catch (err) {
             res.status(400).json(err);
           }
+    },
+    async updateThought(req, res) {
+        try {
+            const updatedThought = await Thought.findByIdAndUpdate(
+              req.params.id,
+              req.body,
+              {
+                new: true,
+                runValidators: true
+              }
+            );
+            if (!updatedThought) {
+              return res.status(404).json({ message: 'Thought not found' });
+            }
+            res.json(updatedThought);
+          } catch (err) {
+            res.status(400).json(err);
+          }
     }
 }
