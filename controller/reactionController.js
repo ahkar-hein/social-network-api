@@ -1,6 +1,7 @@
 const { Thought, Reaction } = require('../models');
 
 module.exports = {
+  // This function is for create a reaction with associated thought
     async createReaction(req, res) {
         try {
             const thought = await Thought.findById(req.params.thoughtId);
@@ -18,6 +19,7 @@ module.exports = {
             res.status(400).json(err);
           }
     },
+    // function for delete reaction
     async deleteReaction(req, res) {
         try {
             const thought = await Thought.findById(req.params.thoughtId);
@@ -31,7 +33,7 @@ module.exports = {
         
             await Reaction.findByIdAndDelete(req.params.reactionId);
         
-            res.json(thought);
+            res.json({message: 'successfully deleted'});
           } catch (err) {
             res.status(400).json(err);
           }

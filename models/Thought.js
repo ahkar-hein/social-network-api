@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 
+// create new mongoose schema for thought
 const thoughtSchema = new mongoose.Schema({
   thoughtText: {
     type: String,
     required: true,
-    minlength: 1,
+    minlength: 1, 
     maxlength: 280
   },
   createdAt: {
@@ -14,12 +15,12 @@ const thoughtSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    ref: 'user'
+    ref: 'user' //foriegn key associated for user
   },
   reactions: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'reaction'
+      ref: 'reaction' // reaction that associated from reaction model
     }
   ]
 },
@@ -30,10 +31,12 @@ const thoughtSchema = new mongoose.Schema({
     id: false,
 });
 
+// create virtual count for reation count 
 thoughtSchema.virtual('reactionCount').get(function () {
   return this.reactions.length;
 });
 
+// create model for thought
 const Thought = mongoose.model('thought', thoughtSchema);
 
 module.exports = Thought;
