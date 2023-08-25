@@ -54,5 +54,16 @@ module.exports = {
           } catch (err) {
             res.status(400).json(err);
           }
+    },
+    async deleteThought(req, res) {
+        try {
+            const deletedThought = await Thought.findByIdAndDelete(req.params.id);
+            if (!deletedThought) {
+              return res.status(404).json({ message: 'Thought not found' });
+            }
+            res.json(deletedThought);
+          } catch (err) {
+            res.status(400).json(err);
+          }
     }
 }
